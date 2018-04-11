@@ -11,7 +11,18 @@ ENV PATH $PATH:${PS2DEV}/bin:${PS2DEV}/ee/bin:${PS2DEV}/iop/bin:${PS2DEV}/dvp/bi
 RUN \
   apk update && \
   apk upgrade && \
-  apk add bash gcc git make musl-dev patch wget && \
+  apk add \
+	bash \
+	gcc \
+	git \
+	make \
+	musl-dev \
+	patch \
+	wget \
+	zlib \
+	zlib-dev \
+	ucl \
+	ucl-dev && \
 
   git clone https://github.com/ps2dev/ps2toolchain && \
   cd ps2toolchain && \
@@ -31,4 +42,9 @@ RUN \
     cd .. && \
   rm -Rf ps2sdk-ports && \
 
-  apk del gcc musl-dev
+  git clone https://github.com/ps2dev/ps2-packer && \
+  cd ps2-packer && \
+  make && make install && \
+  cd .. && \
+  rm -Rf ps2-packer && \
+  apk del gcc musl-dev zlib-dev ucl-dev
